@@ -1,0 +1,131 @@
+{
+  "version": "2026",
+  "rules": [
+    {
+      "rule_id": "mrp_present",
+      "field": "mrp",
+      "name": "Maximum Retail Price (MRP)",
+      "description": "MRP must be clearly displayed on the package",
+      "legal_reference": "Legal Metrology (Packaged Commodities) Rules, 2011 - Schedule I",
+      "mandatory": true,
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "status_rules": {
+        "present": "pass",
+        "missing": "flag"
+      }
+    },
+    {
+      "rule_id": "manufacturer_present",
+      "field": "manufacturer",
+      "name": "Manufacturer/Distributor Name",
+      "description": "Name and address of manufacturer or distributor must be present",
+      "legal_reference": "Legal Metrology (Packaged Commodities) Rules, 2011 - Schedule I",
+      "mandatory": true,
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "status_rules": {
+        "present": "pass",
+        "missing": "flag"
+      }
+    },
+    {
+      "rule_id": "net_quantity_present",
+      "field": "net_quantity",
+      "name": "Net Quantity/Weight",
+      "description": "Net weight or volume must be clearly declared",
+      "legal_reference": "Legal Metrology (Packaged Commodities) Rules, 2011 - Schedule I",
+      "mandatory": true,
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "status_rules": {
+        "present": "pass",
+        "missing": "flag"
+      }
+    },
+    {
+      "rule_id": "consumer_care_present",
+      "field": "consumer_care",
+      "name": "Consumer Care / Instructions",
+      "description": "Consumer care instructions, if applicable, must be provided",
+      "legal_reference": "Legal Metrology (Packaged Commodities) Rules, 2011",
+      "mandatory": false,
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "status_rules": {
+        "present": "pass",
+        "missing": "needs_review"
+      }
+    },
+    {
+      "rule_id": "packer_present",
+      "field": "packer",
+      "name": "Packer's Name and Address",
+      "description": "If different from manufacturer, packer's details must be shown",
+      "legal_reference": "Legal Metrology (Packaged Commodities) Rules, 2011 - Schedule I",
+      "mandatory": false,
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "status_rules": {
+        "present": "pass",
+        "missing": "needs_review"
+      }
+    },
+    {
+      "rule_id": "importer_present",
+      "field": "importer",
+      "name": "Importer's Name and Address",
+      "description": "For imported goods, importer's details must be provided",
+      "legal_reference": "Legal Metrology (Packaged Commodities) Rules, 2011",
+      "mandatory": false,
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "status_rules": {
+        "present": "pass",
+        "missing": "needs_review"
+      }
+    },
+    {
+      "rule_id": "date_present",
+      "field": "date",
+      "name": "Manufacturing/Packing Date",
+      "description": "Manufacturing or packing date should be provided where applicable",
+      "legal_reference": "Legal Metrology (Packaged Commodities) Rules, 2011",
+      "mandatory": false,
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "status_rules": {
+        "present": "pass",
+        "missing": "needs_review"
+      }
+    },
+    {
+      "rule_id": "product_name_present",
+      "field": "product_name",
+      "name": "Product Name/Description",
+      "description": "Product name or description must be clearly displayed",
+      "legal_reference": "Legal Metrology (Packaged Commodities) Rules, 2011 - Schedule I",
+      "mandatory": true,
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "status_rules": {
+        "present": "pass",
+        "missing": "flag"
+      }
+    }
+  ],
+  "compliance_determination": {
+    "overall_status_rules": {
+      "all_pass": "pass",
+      "any_flag": "flag",
+      "any_needs_review": "needs_review"
+    }
+  },
+  "disclaimers": [
+    "This is an AI-assisted preliminary assessment only.",
+    "This system cannot replace human expert verification by legal metrology officers.",
+    "All preliminary findings must be verified by authorized enforcement officers.",
+    "This assessment is based on OCR text extraction which may have limitations.",
+    "Legal compliance determination must be made by qualified personnel with reference to the actual packaged commodity and applicable regulations."
+  ]
+}

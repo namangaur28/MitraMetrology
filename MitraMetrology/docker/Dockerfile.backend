@@ -1,0 +1,55 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies: Tesseract OCR + OpenCV headless
+RUN apt-get update && apt-get install -y \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    libgomp1 \
+    libgl1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
+COPY backend/requirements.txt .
+
+# Install Python dependencies (no EasyOCR, no PaddleOCR, no PyTorch)
+RUN pip install --no-cache-dir \
+    fastapi==0.104.1 \
+    uvicorn==0.24.0 \
+    pydantic==2.5.0 \
+    pydantic-settings==2.1.0 \
+    email-validator==2.1.0 \
+    sqlalchemy==2.0.23 \
+    psycopg2-binary==2.9.9 \
+    alembic==1.12.1 \
+    python-multipart==0.0.6 \
+    numpy==1.26.4 \
+    python-dotenv==1.0.0 \
+    pytest==7.4.3 \
+    pytest-asyncio==0.21.1 \
+    httpx==0.25.2 \
+    reportlab==4.0.7 \
+    python-dateutil==2.8.2 \
+    opencv-python-headless==4.8.1.78 \
+    pytesseract==0.3.10 \
+    Pillow==10.1.0
+
+# Verify Tesseract is working
+RUN tesseract --version && python -c "import pytesseract; print('pytesseract OK')"
+
+# Copy backend code
+COPY backend/app ./app
+
+# Create upload directory
+RUN mkdir -p uploads/originals uploads/processed
+
+# Expose port
+EXPOSE 8000
+
+# Run FastAPI server
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

@@ -1,0 +1,240 @@
+{
+  "version": "2.0",
+  "release_date": "2026-08-26",
+  "source": "Legal Metrology (Packaged Commodities) Rules 2011",
+  "description": "Advanced compliance rules with severity levels and evidence tracking",
+  
+  "rules": [
+    {
+      "rule_id": "LM-001",
+      "category": "mandatory_declaration",
+      "field": "product_name",
+      "name": "Product Name/Description",
+      "description": "Product name or brief description must be clearly declared on the package",
+      "legal_reference": "Schedule I, Legal Metrology Rules 2011",
+      "severity": "critical",
+      "mandatory": true,
+      "version": "2.0",
+      "applicability": "all",
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "verification_status": "field_required",
+      "evidence_required": true
+    },
+    {
+      "rule_id": "LM-002",
+      "category": "mandatory_declaration",
+      "field": "mrp",
+      "name": "Maximum Retail Price (MRP)",
+      "description": "MRP must be clearly displayed on the principal display panel. Format: ₹ or Rs followed by numeric value",
+      "legal_reference": "Schedule I, Rule 6, Legal Metrology Rules 2011",
+      "severity": "critical",
+      "mandatory": true,
+      "version": "2.0",
+      "applicability": "all",
+      "check_type": "presence_and_format",
+      "min_confidence": 0.6,
+      "format_regex": "^₹?\\s*\\d+(\\.\\d{2})?$",
+      "verification_status": "format_required",
+      "evidence_required": true,
+      "additional_checks": ["must_be_positive", "reasonable_range"]
+    },
+    {
+      "rule_id": "LM-003",
+      "category": "mandatory_declaration",
+      "field": "net_quantity",
+      "name": "Net Quantity/Weight",
+      "description": "Net quantity/weight must be declared in SI units (g, kg, ml, l)",
+      "legal_reference": "Schedule I, Rule 7, Legal Metrology Rules 2011",
+      "severity": "critical",
+      "mandatory": true,
+      "version": "2.0",
+      "applicability": "all",
+      "check_type": "presence_and_format",
+      "min_confidence": 0.5,
+      "format_regex": "^\\d+(\\.\\d+)?\\s*(g|kg|ml|l)$",
+      "verification_status": "format_required",
+      "evidence_required": true,
+      "unit_conversion": "all_to_base"
+    },
+    {
+      "rule_id": "LM-004",
+      "category": "mandatory_declaration",
+      "field": "manufacturer",
+      "name": "Manufacturer/Distributor Name and Address",
+      "description": "Name and address of manufacturer or distributor must be clearly displayed",
+      "legal_reference": "Schedule I, Rule 8, Legal Metrology Rules 2011",
+      "severity": "critical",
+      "mandatory": true,
+      "version": "2.0",
+      "applicability": "all",
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "verification_status": "field_required",
+      "evidence_required": true,
+      "sub_fields": ["name", "address", "city", "contact"]
+    },
+    {
+      "rule_id": "LM-005",
+      "category": "conditional_declaration",
+      "field": "consumer_care",
+      "name": "Consumer Care Instructions",
+      "description": "If applicable to product, consumer care and storage instructions must be provided",
+      "legal_reference": "Schedule I, Legal Metrology Rules 2011",
+      "severity": "high",
+      "mandatory": false,
+      "conditional_on": ["product_type"],
+      "version": "2.0",
+      "applicability": "conditional",
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "verification_status": "conditional_check",
+      "evidence_required": false
+    },
+    {
+      "rule_id": "LM-006",
+      "category": "conditional_declaration",
+      "field": "packer",
+      "name": "Packer's Name and Address",
+      "description": "If packer is different from manufacturer, packer's details must be displayed",
+      "legal_reference": "Schedule I, Legal Metrology Rules 2011",
+      "severity": "high",
+      "mandatory": false,
+      "conditional_on": ["different_from_manufacturer"],
+      "version": "2.0",
+      "applicability": "conditional",
+      "check_type": "presence",
+      "min_confidence": 0.5,
+      "verification_status": "conditional_check",
+      "evidence_required": false
+    },
+    {
+      "rule_id": "LM-007",
+      "category": "conditional_declaration",
+      "field": "importer",
+      "name": "Importer's Name and Address",
+      "description": "For imported goods, importer's details must be displayed",
+      "legal_reference": "Schedule I, Legal Metrology Rules 2011",
+      "severity": "high",
+      "mandatory": false,
+      "conditional_on": ["imported_product"],
+      "version": "2.0",
+      "applicability": "conditional",
+      "check_type": "presence",
+      "min_confidence": 0.5",
+      "verification_status": "conditional_check",
+      "evidence_required": false
+    },
+    {
+      "rule_id": "LM-008",
+      "category": "recommended_declaration",
+      "field": "date",
+      "name": "Manufacturing/Packing Date",
+      "description": "Manufacturing or packing date should be provided where applicable",
+      "legal_reference": "Schedule I, Legal Metrology Rules 2011",
+      "severity": "medium",
+      "mandatory": false,
+      "version": "2.0",
+      "applicability": "recommended",
+      "check_type": "presence",
+      "min_confidence": 0.5",
+      "format_regex": "^\\d{2}/\\d{2}/\\d{4}$",
+      "verification_status": "presence_recommended",
+      "evidence_required": false
+    },
+    {
+      "rule_id": "LM-009",
+      "category": "quality_metric",
+      "field": "text_readability",
+      "name": "Text Readability and Visibility",
+      "description": "All declarations must be printed in legible font with adequate contrast",
+      "legal_reference": "Schedule I, Legal Metrology Rules 2011",
+      "severity": "high",
+      "mandatory": true,
+      "version": "2.0",
+      "applicability": "all",
+      "check_type": "quality_analysis",
+      "min_readability_score": 60,
+      "verification_status": "quality_check",
+      "evidence_required": true,
+      "metrics": ["blur", "contrast", "brightness", "resolution"]
+    },
+    {
+      "rule_id": "LM-010",
+      "category": "cross_field_validation",
+      "field": "data_consistency",
+      "name": "Data Consistency Across Images",
+      "description": "When multiple images provided (front, back, etc.), critical fields should not conflict",
+      "legal_reference": "General compliance principle",
+      "severity": "high",
+      "mandatory": false,
+      "version": "2.0",
+      "applicability": "multi_image_scans",
+      "check_type": "consistency_check",
+      "min_confidence": 0.95,
+      "verification_status": "cross_field_check",
+      "evidence_required": true,
+      "fields_to_check": ["mrp", "net_quantity", "manufacturer", "product_name"]
+    }
+  ],
+  
+  "categories": {
+    "mandatory_declaration": {
+      "description": "Fields that must be present on all packaged commodities",
+      "severity_level": "critical",
+      "enforcement": "strict"
+    },
+    "conditional_declaration": {
+      "description": "Fields that must be present based on product type or origin",
+      "severity_level": "high",
+      "enforcement": "contextual"
+    },
+    "recommended_declaration": {
+      "description": "Fields recommended for best practices",
+      "severity_level": "medium",
+      "enforcement": "advisory"
+    },
+    "quality_metric": {
+      "description": "Quality standards for compliance verification",
+      "severity_level": "high",
+      "enforcement": "strict"
+    },
+    "cross_field_validation": {
+      "description": "Validation across multiple fields or images",
+      "severity_level": "high",
+      "enforcement": "contextual"
+    }
+  },
+  
+  "severity_levels": {
+    "critical": {
+      "level": 1,
+      "description": "Missing or malformed critical declaration - likely non-compliant",
+      "action": "FLAG"
+    },
+    "high": {
+      "level": 2,
+      "description": "Important declaration missing or unclear - requires verification",
+      "action": "NEEDS_REVIEW"
+    },
+    "medium": {
+      "level": 3,
+      "description": "Recommended field not found - advisory",
+      "action": "INFO"
+    },
+    "low": {
+      "level": 4,
+      "description": "Minor issue - unlikely to affect compliance",
+      "action": "WARNING"
+    }
+  },
+  
+  "disclaimers": [
+    "This is an AI-assisted preliminary assessment only.",
+    "This system cannot replace human expert verification by legal metrology officers.",
+    "All preliminary findings must be verified by authorized enforcement officers.",
+    "This assessment is based on OCR text extraction which may have limitations.",
+    "Legal compliance determination must be made by qualified personnel with reference to the actual packaged commodity and applicable regulations.",
+    "Rules version 2.0 reflects guidelines as of August 2026. Refer to official documents for latest updates."
+  ]
+}
