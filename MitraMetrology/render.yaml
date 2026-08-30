@@ -7,13 +7,13 @@ databases:
     region: singapore
 
 services:
-  # Backend API (FastAPI)
+  # Backend API (FastAPI - Simplified for Render Free Tier)
   - type: web
     name: mitrametrology-backend
     runtime: python
     plan: free
     region: singapore
-    buildCommand: ./render-build.sh
+    buildCommand: pip install -r backend/requirements-render.txt
     startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: DATABASE_URL

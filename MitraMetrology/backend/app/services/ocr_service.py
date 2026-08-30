@@ -17,7 +17,12 @@ try:
     logger.info("Tesseract OCR available")
 except Exception as e:
     TESSERACT_AVAILABLE = False
-    logger.warning(f"Tesseract not available: {e}")
+    logger.warning(f"Tesseract not available: {e}. Using demo mode.")
+    # Import demo/fallback service
+    try:
+        from .ocr_service_simple import SimpleOCRService
+    except:
+        SimpleOCRService = None
 
 
 class OCRService:
@@ -25,6 +30,8 @@ class OCRService:
 
     def __init__(self):
         self.ocr_available = TESSERACT_AVAILABLE
+        self.simple_service = None
+        
         if self.ocr_available:
             try:
                 # Quick sanity check
@@ -33,6 +40,11 @@ class OCRService:
             except Exception as e:
                 logger.error(f"Failed to init Tesseract: {e}")
                 self.ocr_available = False
+        
+        # Initialize fallback service if Tesseract not available
+        if not self.ocr_available and SimpleOCRService:
+            self.simple_service = SimpleOCRService()
+            logger.info("Using simplified OCR service (demo mode)")
 
     def _preprocess(self, image_path: str):
         """Load and pre-process image for best OCR accuracy."""
@@ -59,12 +71,24 @@ class OCRService:
     def extract_text(self, image_path: str) -> Tuple[bool, Dict[str, Any], str]:
         """
         Extract text from image using Tesseract.
+        Falls back to demo mode if Tesseract not available.
         Returns: (success, result_dict, error_message)
         """
         try:
             start_time = time.time()
 
+            # Use simple service if Tesseract not available
             if not self.ocr_available:
+                if self.simple_service:
+                    result = self.simple_service.extract_text_from_image(image_path)
+                    if result["success"]:
+                        return True, {
+                            "text_blocks": result["text_blocks"],
+                            "raw_text": result["raw_text"],
+                            "confidence_avg": result["confidence"],
+                            "processing_time_ms": 100,
+                            "method": "demo_mode"
+                        }, ""
                 return False, {}, "OCR service not available"
 
             pil_thresh, pil_orig = self._preprocess(image_path)
